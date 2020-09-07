@@ -6,17 +6,19 @@ import com.koreait.matzip.user.UserController;
 
 public class HandlerMapper {
 	private UserController userController;
-
+	private ErrorController errorController;
+	
 	public HandlerMapper() {
 		super();
 		userController = new UserController();
+		errorController = new ErrorController();
 	}
 
 	public String nav(HttpServletRequest request) {
 		String[] uriArr = request.getRequestURI().split("/");
 
 		if (uriArr.length < 3) {
-			return "400";
+			return errorController.error(request,"404 요청 오류", "페이지를 찾을 수 없습니다.", "경로를 다시 확인해 주십시오.");
 		}
 
 		switch (uriArr[1]) {
@@ -26,10 +28,13 @@ public class HandlerMapper {
 				return userController.login(request);
 			case "join" :
 				return userController.join(request);
+			case "joinProc":
+				return userController.joinProc(request);
 			}
 			break;
 		}
-		return "404";
+		
+		return errorController.error(request,"400 요청 오류", "페이지를 찾을 수 없습니다.", "경로를 다시 확인해 주십시오.");
 	}
 
 }

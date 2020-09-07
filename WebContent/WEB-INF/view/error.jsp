@@ -5,7 +5,7 @@
 <title>${title }</title>
 </head>
 <body>
-	<h1>HTTP 상태 ${err_type } – 구현되지 않음</h1>
+	<h1>HTTP 상태 ${err_type }</h1>
 	<hr>
 	<p>
 		<b>타입</b> ${err_type }

@@ -19,4 +19,13 @@ public class UserController {
 		request.setAttribute(Const.TITLE, "회원가입");
 		return ViewRef.TEMP_DEFAULT;
 	}
+	
+
+	public String joinProc(HttpServletRequest request) {
+		String user_id = request.getParameter("user_id");
+		String user_pw = request.getParameter("user_pw");
+		String user_nm = request.getParameter("nm");
+				
+		return "redirect:/user/login";
+	}
 }
