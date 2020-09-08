@@ -30,7 +30,6 @@ public class UserDAO {
 
 	public UserVO login(UserVO param) {
 		UserVO result = new UserVO();
-		;
 		String sql = " select i_user, user_id, user_pw,salt, nm, profile_img, r_dt, m_dt from t_user where ";
 
 		if (param.getI_user() > 0) {
@@ -55,6 +54,8 @@ public class UserDAO {
 					result.setNm(rs.getNString("nm"));
 					result.setSalt(rs.getNString("salt"));
 					result.setProfile_img(rs.getNString("profile_img"));
+					result.setR_dt(rs.getString("r_dt"));
+					result.setM_dt(rs.getString("m_dt"));
 				}
 			}
 		});

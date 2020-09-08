@@ -4,7 +4,7 @@
 		<div class="err">${Err}</div>
 		<form class="frm" id="frm" action="/user/loginProc" method="post">
 			<div>
-				<label>아이디</label><input type="text" name="user_id" placeholder="아이디" value="${tempData.getUser_id()}" required>
+				<label>아이디</label><input type="text" name="user_id" placeholder="아이디" required>
 			</div>
 			<div>
 				<label>비밀번호</label><input type="password" name="user_pw" placeholder="비밀번호" required>

@@ -41,21 +41,11 @@ public class UserController {
 		
 		switch (service.login(param)) {
 		case 0:
-//			request.setAttribute(Const.VIEW, "/user/login");
-//			request.setAttribute(Const.TITLE, "로그인");
-//			request.setAttribute("Err", "아이디 없음");
-//			return ViewRef.TEMP_DEFAULT;
 			return "redirect:/user/login?Err="+"2";
 		case 1:
-//			request.setAttribute(Const.VIEW, "/restaurant/restMap");
-//			request.setAttribute(Const.TITLE, "레스토랑 지도");
-//			return ViewRef.TEMP_TYPE_1;
+
 			return "redirect:/restaurant/restMap";
 		case 2:
-//			request.setAttribute(Const.VIEW, "/user/login");
-//			request.setAttribute(Const.TITLE, "로그인");
-//			request.setAttribute("Err", "비밀번호 틀림");
-//			return ViewRef.TEMP_DEFAULT;
 			return "redirect:/user/login?Err="+"3";
 		}
 		
@@ -84,4 +74,13 @@ public class UserController {
 		return "redirect:/user/login";
 	}
 
+	public String ajaxIdChk(HttpServletRequest request) {
+		String user_id = request.getParameter("user_id");
+		UserVO param = new UserVO();
+		param.setUser_id(user_id);
+		param.setUser_pw("");
+		int result = service.login(param);
+		
+		return String.format("ajax:{\"result\":%s}",result);
+	}
 }
