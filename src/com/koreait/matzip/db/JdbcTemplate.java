@@ -5,25 +5,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class JdbcTemplate {
-	public static int executeQuery(String sql, JdbcSelectInterface jdbc) {
+	public static void executeQuery(String sql, JdbcSelectInterface jdbc) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		int result = -1;
 		try {
 			conn = DbManager.getConn();
 			ps = conn.prepareStatement(sql);
 			jdbc.prepard(ps);
 			rs = ps.executeQuery();
-			result = jdbc.executeQuery(rs);
+			jdbc.executeQuery(rs);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			DbManager.close(conn, ps, rs);
 		}
-
-		return result;
 	}
 
 	public static int executeUpdate(String sql, JdbcUpdateInterface jdbc) {

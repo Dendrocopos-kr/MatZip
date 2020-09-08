@@ -20,4 +20,13 @@ public class UserServices {
 
 		return dao.join(param);
 	}
+
+	public int login(UserVO param) {
+		UserVO selUser = dao.login(param);
+		if (selUser.getSalt() == null) {
+			return 0;
+		}
+		return SecurityUtils.getEncrypt(param.getUser_pw(), selUser.getSalt())
+				.equals(selUser.getUser_pw()) == true ? 1 : 2;
+	}
 }

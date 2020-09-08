@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface JdbcSelectInterface {
 	void prepard(PreparedStatement ps) throws SQLException;
-	int executeQuery(ResultSet rs) throws SQLException;
+	void executeQuery(ResultSet rs) throws SQLException;
 
 }

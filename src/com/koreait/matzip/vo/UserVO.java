@@ -4,7 +4,7 @@ public class UserVO {
 	private int i_user;
 	private String user_id;
 	private String user_pw;
-	private String user_nm;
+	private String nm;
 	private String profile_img;
 	private String salt;
 	private String r_dt;
@@ -28,11 +28,11 @@ public class UserVO {
 	public void setUser_pw(String user_pw) {
 		this.user_pw = user_pw;
 	}
-	public String getUser_nm() {
-		return user_nm;
+	public String getNm() {
+		return nm;
 	}
-	public void setUser_nm(String user_nm) {
-		this.user_nm = user_nm;
+	public void setNm(String nm) {
+		this.nm = nm;
 	}
 	public String getProfile_img() {
 		return profile_img;

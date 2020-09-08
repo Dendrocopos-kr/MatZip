@@ -7,29 +7,9 @@
 <title>${title}</title>
 </head>
 <body>
-	<div id="containerGird">
-		<div id="nav">
-			<div  class="delimiter">
-				<span>Navi</span>
-			</div>
-		</div>
-		<div id="menubar">
-			<div class="delimiter">
-				<span>Menubar</span>
-			</div>
-		</div>
-		<div id="container">
-			<div class="delimiter">
-				<span>container</span>
-			</div>
-			<jsp:include page="/WEB-INF/view/${view}.jsp"></jsp:include>
-		</div>
-		<div id="footer">
-			<div class="delimiter">
-				<span>footer</span>
-			</div>
-		</div>
-	</div>
+	<section id="container">
+		<jsp:include page="/WEB-INF/view/${view}.jsp"></jsp:include>
+	</section>
 </body>
 <script src="/res/js/test.js"></script>
 </html>

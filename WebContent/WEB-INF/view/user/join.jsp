@@ -2,6 +2,7 @@
 
 <div id="sectionContainerCenter">
 	<div>
+		<div class="err">${Err}</div>
 		<form class="frm" id="frm" action="/user/joinProc" method="post" onsubmit="return chk()">
 			<div>
 				<label>아이디</label><input type="text" name="user_id" placeholder="아이디" value="${tempData.getUser_id()}" required>
@@ -20,8 +21,7 @@
 			</div>
 		</form>
 		<div>
-			<a  id="login" href="/user/login"><button>로그인 화면으로</button></a>
+			<a class="btn" href="/user/login"><button>로그인 화면으로</button></a>
 		</div>
 	</div>
-	<div id="err">${Err}</div>
 </div>

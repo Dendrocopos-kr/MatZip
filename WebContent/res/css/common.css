@@ -1,53 +1,52 @@
 @charset "UTF-8";
 
-html, body{
-	margin:0;
-	padding:0;
-	width:100%;
-	height:100%;
-}
-
-#containerGird{
-	display:grid;
+html, body {
+	margin: 0;
+	padding: 0;
 	width: 100%;
 	height: 100%;
-	grid-template-areas:
-	" nav nav"
-	" menubar container"
-	" footer footer"
-	;
-    grid-template-rows: 2fr 20fr 1fr;
-    grid-template-columns: 1fr 5fr;
+}
+
+#containerGird {
+	display: grid;
+	width: 100%;
+	height: 100%;
+	grid-template-areas: " nav nav" " menubar container" " footer footer";
+	grid-template-rows: 2fr 20fr 1fr;
+	grid-template-columns: 1fr 5fr;
 	border: 1px solid black;
 }
-#nav{
+
+#header {
 	grid-area: nav;
 	background: red;
 }
-#menubar{
+
+#menubar {
 	grid-area: menubar;
 	background: blue;
 }
-#footer{
+
+#footer {
 	grid-area: footer;
 	background: green;
 }
 
-#container{
+#container {
 	grid-area: container;
-	width:100%;
-	height:100%;
+	width: 100%;
+	height: 100%;
 }
 
-#sectionContainerCenter{
-	width:100%;
-	height:100%;
+#sectionContainerCenter {
+	width: 100%;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.frm{
+.frm {
 	width: 450px;
 	border-radius: 7%;
 	background-color: #faf9f7;
@@ -101,18 +100,18 @@ html, body{
 	font-weight: bold;
 }
 
-#frm div:last-child{
+#frm div:last-child {
 	align-self: center;
 }
 
-#login {
+.btn {
 	text-decoration: none;
 	color: #58585a;
 	margin: 20px;
 	font-weight: bold;
 }
 
-#login button {
+.btn button {
 	width: auto;
 	background-color: #f5d1ca;
 	border: none;
@@ -122,6 +121,13 @@ html, body{
 	font-weight: bold;
 }
 
-.delimiter{
+.delimiter {
 	color: grey;
+}
+
+.err {
+	color: #ff6f69;
+	text-align: center;
+	font-size: 0.9em;
+	font-weight: bold;
 }
