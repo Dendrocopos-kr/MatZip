@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,8 +7,29 @@
 <title>${title}</title>
 </head>
 <body>
-	<div id="container">
-		<jsp:include page="/WEB-INF/view/${view}.jsp"></jsp:include>
+	<div id="containerGird">
+		<div id="nav">
+			<div  class="delimiter">
+				<span>Navi</span>
+			</div>
+		</div>
+		<div id="menubar">
+			<div class="delimiter">
+				<span>Menubar</span>
+			</div>
+		</div>
+		<div id="container">
+			<div class="delimiter">
+				<span>container</span>
+			</div>
+			<jsp:include page="/WEB-INF/view/${view}.jsp"></jsp:include>
+		</div>
+		<div id="footer">
+			<div class="delimiter">
+				<span>footer</span>
+			</div>
+		</div>
 	</div>
 </body>
+<script src="/res/js/test.js"></script>
 </html>

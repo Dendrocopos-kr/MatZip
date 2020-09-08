@@ -7,7 +7,34 @@ html, body{
 	height:100%;
 }
 
+#containerGird{
+	display:grid;
+	width: 100%;
+	height: 100%;
+	grid-template-areas:
+	" nav nav"
+	" menubar container"
+	" footer footer"
+	;
+    grid-template-rows: 2fr 20fr 1fr;
+    grid-template-columns: 1fr 5fr;
+	border: 1px solid black;
+}
+#nav{
+	grid-area: nav;
+	background: red;
+}
+#menubar{
+	grid-area: menubar;
+	background: blue;
+}
+#footer{
+	grid-area: footer;
+	background: green;
+}
+
 #container{
+	grid-area: container;
 	width:100%;
 	height:100%;
 }
@@ -93,4 +120,8 @@ html, body{
 	color: #58585a;
 	border-radius: 10px;
 	font-weight: bold;
+}
+
+.delimiter{
+	color: grey;
 }
