@@ -43,7 +43,6 @@ public class HandlerMapper {
 				request.setAttribute(Const.VIEW, "/restaurant/restMap");
 				request.setAttribute(Const.TITLE, "레스토랑 지도");
 				return ViewRef.TEMP_TYPE_1;
-				
 			// return restController.view(request);
 			}
 			break;
