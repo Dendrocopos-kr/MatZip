@@ -20,6 +20,9 @@ html, body {
 #header {
 	grid-area: nav;
 	background: red;
+    display: flex;
+    justify-content: space-between;
+	align-content: space-between;
 }
 
 #menubar {
@@ -121,10 +124,6 @@ html, body {
 	font-weight: bold;
 }
 
-.delimiter {
-	color: grey;
-}
-
 .err {
 	color: #ff6f69;
 	text-align: center;
@@ -135,4 +134,30 @@ html, body {
 .msg {
 	text-align: center;
 	font-weight: bolder;
+}
+
+#containerGird>footer{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+}
+
+.containerImg{
+	margin: 1em;
+    height: 3em;
+    width: 3em;
+	overflow: hidden;
+	
+}
+.headerLeft{
+	display:flex;
+	text-align: center;
+    align-items: center;
+}
+.pImg{
+    height: 3em;
+    width: 3em;
+	border-radius: 50%;	
+	background-size: cover;
 }

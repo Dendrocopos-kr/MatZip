@@ -26,7 +26,21 @@ public class UserServices {
 		if (selUser.getSalt() == null) {
 			return 0;
 		}
+		
+		if(SecurityUtils.getEncrypt(param.getUser_pw(), selUser.getSalt())
+				.equals(selUser.getUser_pw())) {
+			param.setUser_pw(null);
+			param.setI_user(selUser.getI_user());
+			param.setNm(selUser.getNm());
+			param.setProfile_img(selUser.getProfile_img());    
+			return 1;
+		}else {
+			return 2;
+		}
+		
+		/*
 		return SecurityUtils.getEncrypt(param.getUser_pw(), selUser.getSalt())
 				.equals(selUser.getUser_pw()) == true ? 1 : 2;
+				*/
 	}
 }

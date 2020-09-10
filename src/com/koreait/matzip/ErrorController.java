@@ -9,7 +9,8 @@ public class ErrorController {
 		Add_Error_Code(request, errCode, errMsg, errDes);
 		return ViewRef.TEMP_DEFAULT;
 	}
-	public void Add_Error_Code(HttpServletRequest request,String errCode, String errMsg, String errDes) {
+	
+	private void Add_Error_Code(HttpServletRequest request,String errCode, String errMsg, String errDes) {
 		request.setAttribute(Const.ERROR_TYPE, errCode);
 		request.setAttribute(Const.ERROR_MSG, errMsg);
 		request.setAttribute(Const.ERROR_DESCRIPTION, errDes);
