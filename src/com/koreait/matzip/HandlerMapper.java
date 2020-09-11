@@ -38,14 +38,14 @@ public class HandlerMapper {
 				return userController.joinProc(request);
 			case "chkIdProc":
 				return userController.ajaxIdChk(request);
-			case "youtube":
-				return userController.youtube(request);
 			}
 			break;
 		case ViewRef.URI_REST:
 			switch (uriArr[2]) {
 			case "restMap":
 				return restaurantController.viewMap(request);
+			case "restReg":
+				return restaurantController.restReg(request);
 			}
 			break;
 		}

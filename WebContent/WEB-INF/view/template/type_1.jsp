@@ -1,52 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="/res/css/common.css">
 <title>${title}</title>
+<link rel="stylesheet" type="text/css" href="/res/css/common.css">
 </head>
 <body>
-	<div id="containerGird">
-		<header id="header">
-			<div class="headerLeft">
-				<div class="containerImg">
+	<div id="container">
+		<header>
+			<div id="headerLeft">
+				<div class="containerPImg">
 					<c:choose>
 						<c:when test="${login_user.profile_img != null}">
-							<img class="pImg" alt=""
-								src="/res/img/user/${login_user.i_user}/${login_user.profile_img}">
+							<img class="pImg" src="/res/img/user/${login_user.i_user}/${login_user.profile_img}">
 						</c:when>
 						<c:otherwise>
-							<img class="pImg" alt="" src="/res/img/default_profile.png">
+							<img class="pImg" src="/res/img/default_profile.png">
 						</c:otherwise>
 					</c:choose>
 				</div>
-				<div id="headerNm">${login_user.nm}님환영합니다.</div>
-				<div class="btn">
-					<a href="/user/logout">
-						<button id="logout" type="button">로그아웃</button>
-					</a>
-				</div>
+				<div class="ml5">${login_user.nm}님 환영합니다.</div>	
+				<div class="ml15" id="headerLogout"><a href="/user/logout">로그아웃</a></div>			
 			</div>
-			<div class="headerRight btn">
-				<a href="/restaurant/reg"><button>등록</button></a> 
-				<a href="/user/favorite"><button>찜</button></a>
+			<div id="headerRight">
+				<a href="/restaurant/restMap">지도</a>
+				<a class="ml15" href="/restaurant/restReg">등록</a>
+				<a class="ml15" href="/user/restFavorite">찜</a>
 			</div>
 		</header>
-		<div id="menubar">
-			<div class="delimiter">
-				<span>Menubar</span>
-			</div>
-		</div>
-		<section id="container">
+		<section>
 			<jsp:include page="/WEB-INF/view/${view}.jsp"></jsp:include>
 		</section>
-		<footer id="footer">
-			<div class="delimiter">
-				<span>회사정보</span>
-			</div>
+		<footer>
+			<span>회사 정보</span>
 		</footer>
 	</div>
 </body>

@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,9 +8,8 @@
 <title>${title}</title>
 </head>
 <body>
-	<section id="container">
+	<div id="container">
 		<jsp:include page="/WEB-INF/view/${view}.jsp"></jsp:include>
-	</section>
+	</div>
 </body>
-<script src="/res/js/test.js"></script>
 </html>
