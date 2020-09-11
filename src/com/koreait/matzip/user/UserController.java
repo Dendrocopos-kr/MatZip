@@ -90,10 +90,4 @@ public class UserController {
 		request.getSession().invalidate();
 		return "redirect:/user/login";
 	}
-
-	public String youtube(HttpServletRequest request) {
-		request.setAttribute(Const.VIEW, "/youtube/youtube");
-		request.setAttribute(Const.TITLE, "youtube test");		
-		return ViewRef.TEMP_DEFAULT;
-	}
 }

@@ -56,6 +56,7 @@ public class Container extends HttpServlet {
 			case "ajax":
 				response.setCharacterEncoding("UTF-8");
 				response.setContentType("application/json");
+				System.out.println(value);
 				PrintWriter out = response.getWriter();
 				out.print(value);
 				return;

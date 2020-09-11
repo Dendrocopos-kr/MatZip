@@ -26,10 +26,10 @@ public class HandlerMapper {
 		switch (uriArr[1]) {
 		case ViewRef.URI_USER:
 			switch (uriArr[2]) {
-		case "login":
-			return userController.login(request);
-		case "loginProc":
-			return userController.loginProc(request);
+			case "login":
+				return userController.login(request);
+			case "loginProc":
+				return userController.loginProc(request);
 			case "logout":
 				return userController.logout(request);
 			case "join":
@@ -46,10 +46,16 @@ public class HandlerMapper {
 				return restaurantController.viewMap(request);
 			case "restReg":
 				return restaurantController.restReg(request);
+			case "restRegProc":
+				return restaurantController.restRegProc(request);
+			case "insertChk":
+				return restaurantController.insertChk(request);
+			case "getList":
+				return restaurantController.ajaxGetList(request);
 			}
 			break;
 		}
-		
+
 		return errorController.error(request, "400 요청 오류", "페이지를 찾을 수 없습니다.", "경로를 다시 확인해 주십시오.");
 	}
 
