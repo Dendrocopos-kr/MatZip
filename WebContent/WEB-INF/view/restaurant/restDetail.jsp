@@ -21,8 +21,8 @@
 						</div>
 					</div>
 				</div>
-				<c:if
-					test="${loginUser.i_user == data.i_user && item.menu_pic != null}">
+				<c:if test="${loginUser.i_user == data.i_user}">
+			    <%-- <c:if test="${loginUser.i_user == data.i_user && item.menu_pic != null}"> --%>
 					<div class="delIconContainer"
 						onclick="delRecMenu(${item.i_rest},${item.seq},'${item.menu_pic}')">
 						<span class="material-icons"> clear </span>
