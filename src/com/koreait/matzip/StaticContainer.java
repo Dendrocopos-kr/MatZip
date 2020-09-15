@@ -1,7 +1,5 @@
 package com.koreait.matzip;
 
-import org.apache.catalina.servlets.*;
+import org.apache.catalina.servlets.DefaultServlet;
 
-public class StaticContainer extends DefaultServlet {
-	private static final long serialVersionUID = 1L;
-}
+public class StaticContainer extends DefaultServlet {}

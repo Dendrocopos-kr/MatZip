@@ -11,24 +11,22 @@ import com.koreait.matzip.db.JdbcTemplate;
 import com.koreait.matzip.vo.CodeDomain;
 
 public class CommonDAO {
-	public static List<CodeDomain> selectCodeList(int i_m){
+	public static List<CodeDomain> selCodeList(final int i_m) {
 		List<CodeDomain> list = new ArrayList();
 		
-		String sql = " select i_m, cd, val from c_code_d where i_m = ? ";
+		String sql = " SELECT i_m, cd, val FROM c_code_d WHERE i_m = ? ";
 		
 		JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
-			
 			@Override
-			public void prepard(PreparedStatement ps) throws SQLException {
+			public void prepared(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, i_m);				
 			}
-			
+
 			@Override
 			public void executeQuery(ResultSet rs) throws SQLException {
-				while (rs.next()) {
+				while(rs.next()) {
 					CodeDomain cd = new CodeDomain();
 					cd.setCd(rs.getInt("cd"));
-					cd.setI_m(rs.getInt("i_m"));
 					cd.setVal(rs.getNString("val"));
 					list.add(cd);
 				}

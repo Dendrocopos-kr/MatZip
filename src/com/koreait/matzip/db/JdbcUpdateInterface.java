@@ -2,8 +2,7 @@ package com.koreait.matzip.db;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.*;
 
 public interface JdbcUpdateInterface {
-	public abstract int update(PreparedStatement ps) throws SQLException;
+	void update(PreparedStatement ps) throws SQLException;
 }

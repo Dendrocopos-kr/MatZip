@@ -5,16 +5,34 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.koreait.matzip.vo.UserVO;
 
 public class SecurityUtils {
+
 	public static UserVO getLoginUser(HttpServletRequest request) {
-		return (UserVO) request.getSession().getAttribute(Const.LOGIN_USER);
+		HttpSession hs = request.getSession();
+		return (UserVO)hs.getAttribute(Const.LOGIN_USER);
 	}
 	
-	public static boolean isLogOut(HttpServletRequest request) {
+	public static boolean isLogout(HttpServletRequest request) {				
 		return getLoginUser(request) == null;
+	}
+	
+	public static String generateSalt() {
+		Random random = new Random();
+
+		byte[] salt = new byte[8];
+		random.nextBytes(salt);
+
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < salt.length; i++) {
+			// byte 값을 Hex 값으로 바꾸기.
+			System.out.println(i + " : " + String.format("%02x", salt[i]));
+			sb.append(String.format("%02x", salt[i]));
+		}
+		return sb.toString();
 	}
 
 	public static String getEncrypt(String source, String salt) {
@@ -48,21 +66,6 @@ public class SecurityUtils {
 		}
 
 		return result;
-	}
-
-	public static String generateSalt() {
-		Random random = new Random();
-
-		byte[] salt = new byte[8];
-		random.nextBytes(salt);
-
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < salt.length; i++) {
-			// byte 값을 Hex 값으로 바꾸기.
-			sb.append(String.format("%02x", salt[i]));
-		}
-
-		return sb.toString();
 	}
 
 }

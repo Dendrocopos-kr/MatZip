@@ -42,8 +42,8 @@ public class RestaurantService {
 
 	public int addRecMenus(HttpServletRequest request) {
 
-		String savePath = "/res/img/restaurant";
-		String tempPath = request.getServletContext().getRealPath(savePath + "/temp");
+		String savePath = request.getServletContext().getRealPath("/res/img/restaurant");
+		String tempPath = savePath + "/temp";
 		FileUtils.makeFolder(tempPath);
 
 		int maxFileSize = 10_485_760; // 1024 * 1024 * 10 (10mb) //최대 파일 사이즈 크기
@@ -60,19 +60,21 @@ public class RestaurantService {
 			System.out.println("i_rest : " + i_rest);
 			menu_nmArr = multi.getParameterValues("menu_nm");
 			menu_priceArr = multi.getParameterValues("menu_price");
-
+			
+			if(menu_nmArr == null || menu_priceArr == null ) {
+				return i_rest;
+			}
+			
 			list = new ArrayList<RestaurantRecommendMenuVO>();
-			if (menu_nmArr != null && menu_priceArr != null) {
-				for (int i = 0; i < menu_nmArr.length; i++) {
-					RestaurantRecommendMenuVO vo = new RestaurantRecommendMenuVO();
-					vo.setI_rest(i_rest);
-					vo.setMenu_nm(menu_nmArr[i]);
-					vo.setMenu_price(CommonUtils.parseStringToInt(menu_priceArr[i]));
-					list.add(vo);
-				}
+			for (int i = 0; i < menu_nmArr.length; i++) {
+				RestaurantRecommendMenuVO vo = new RestaurantRecommendMenuVO();
+				vo.setI_rest(i_rest);
+				vo.setMenu_nm(menu_nmArr[i]);
+				vo.setMenu_price(CommonUtils.parseStringToInt(menu_priceArr[i]));
+				list.add(vo);
 			}
 
-			String targetPath = request.getServletContext().getRealPath(savePath + "/" + i_rest);
+			String targetPath = savePath + "/" + i_rest;
 			FileUtils.makeFolder(targetPath);
 
 			String fileNm = "";
@@ -101,6 +103,7 @@ public class RestaurantService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		if (list != null) {
 			for (RestaurantRecommendMenuVO vo : list) {
 				dao.insRecommendMenu(vo);
@@ -108,5 +111,14 @@ public class RestaurantService {
 		}
 
 		return i_rest;
+	}
+
+	public List<RestaurantRecommendMenuVO> getRecommendMenuList(RestaurantVO param) {
+		return dao.selRestRecMenuList(param);
+	}
+
+	public int delRecMenu(RestaurantRecommendMenuVO param) {
+		int result = dao.delRecMenu(param);
+		return result;
 	}
 }
