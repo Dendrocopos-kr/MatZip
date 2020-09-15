@@ -24,7 +24,7 @@
 				<c:if
 					test="${loginUser.i_user == data.i_user && item.menu_pic != null}">
 					<div class="delIconContainer"
-						onclick="delRecMenu(${item.i_rest},${item.seq})">
+						onclick="delRecMenu(${item.i_rest},${item.seq},'${item.menu_pic}')">
 						<span class="material-icons"> clear </span>
 					</div>
 				</c:if>
@@ -114,10 +114,11 @@
 			}
 		}
 		
-		function delRecMenu(i_rest,seq){
+		function delRecMenu(i_rest,seq,fileNm){
 			axios.get('/restaurant/ajaxDelRecMenu',{
 				params:{
-					i_rest,seq
+					i_rest,seq,
+					fileNm
 				}
 			}).then(function(res){
 				if(res.data.result == 1){
