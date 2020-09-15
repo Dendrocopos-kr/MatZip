@@ -9,60 +9,63 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.koreait.matzip.vo.UserVO;
-
 @WebServlet("/")
 public class Container extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+    
 	private HandlerMapper mapper;
-
+	
 	public Container() {
-		super();
 		mapper = new HandlerMapper();
 	}
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		proc(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		proc(request, response);
 	}
-
+	
 	private void proc(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String temp = mapper.nav(request);
-		
-		
-		String routerChk = LoginChkInterceptor.routerChk(request);
-		if( routerChk != null) {
-			response.sendRedirect(routerChk);
+
+		String routerCheckResult = LoginChkInterceptor.routerChk(request);
+		if(routerCheckResult != null) {
+			response.sendRedirect(routerCheckResult);
 			return;
 		}
 		
+		String temp = mapper.nav(request); //보통 템플릿 파일명
 		
-		if (temp.indexOf(":") >= 0) {
+		if(temp.indexOf(":") >= 0) {
 			String prefix = temp.substring(0, temp.indexOf(":"));
-			String value = temp.substring(temp.indexOf(":")+1);
+			String value = temp.substring(temp.indexOf(":") + 1);
 			
-			switch (prefix) {
-			case "redirect":
+			System.out.println("prefix : " + prefix);
+			System.out.println("value : " + value);
+			
+			if("redirect".equals(prefix)) {				
 				response.sendRedirect(value);
 				return;
-			case "ajax":
+			} else if("ajax".equals(prefix)) {				
 				response.setCharacterEncoding("UTF-8");
 				response.setContentType("application/json");
-				System.out.println(value);
 				PrintWriter out = response.getWriter();
 				out.print(value);
 				return;
 			}
 		}
-
+		
+		switch(temp) {
+		case "405":
+			temp = "/WEB-INF/view/error.jsp";
+			break;
+		case "404":
+			temp = "/WEB-INF/view/notFound.jsp";
+			break;
+		}
 		request.getRequestDispatcher(temp).forward(request, response);
 	}
+
 }
