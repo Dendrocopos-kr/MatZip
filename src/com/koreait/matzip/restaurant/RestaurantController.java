@@ -9,6 +9,7 @@ import com.koreait.matzip.CommonUtils;
 import com.koreait.matzip.Const;
 import com.koreait.matzip.SecurityUtils;
 import com.koreait.matzip.ViewRef;
+import com.koreait.matzip.vo.RestaurantRecommendMenuDomain;
 import com.koreait.matzip.vo.RestaurantRecommendMenuVO;
 import com.koreait.matzip.vo.RestaurantVO;
 import com.koreait.matzip.vo.UserVO;
@@ -71,6 +72,7 @@ public class RestaurantController {
 		request.setAttribute("css", new String[] { "restaurant" });
 
 		request.setAttribute("recommendMenuList", service.getRecommendMenuList(param));
+		request.setAttribute("menuList", service.getMenuList(param));
 		request.setAttribute("data", service.getRest(param));
 		request.setAttribute(Const.TITLE, "디테일");
 		request.setAttribute(Const.VIEW, "restaurant/restDetail");
@@ -83,22 +85,28 @@ public class RestaurantController {
 		return "redirect:/restaurant/restDetail?i_rest=" + result;
 	}
 
+	public String addMenusProc(HttpServletRequest request) {
+		int result = service.addMenus(request);
+		return "redirect:/restaurant/restDetail?i_rest=" + result;
+	}
+
 	public String ajaxDelRecMenu(HttpServletRequest request) {
 		int i_rest = CommonUtils.getIntParameter("i_rest", request);
 		int seq = CommonUtils.getIntParameter("seq", request);
-		//파일 삭제 추가 1
+		// 파일 삭제 추가 1
 		String fileNm = request.getParameter("fileNm");
-		//파일 삭제 끝 1
-		//System.out.println(fileNm);
+		// 파일 삭제 끝 1
+		// System.out.println(fileNm);
 
-		RestaurantRecommendMenuVO param = new RestaurantRecommendMenuVO();
+		RestaurantRecommendMenuDomain param = new RestaurantRecommendMenuDomain();
+		param.setI_user(SecurityUtils.getLoginUser(request).getI_user());
 		param.setI_rest(i_rest);
 		param.setSeq(seq);
 		int result = service.delRecMenu(param);
-		//파일 삭제 추가 2
+		// 파일 삭제 추가 2
 		String savePath = request.getServletContext().getRealPath("/res/img/restaurant") + "/" + i_rest + "/" + fileNm;
-		
-		//System.out.println(savePath);
+
+		// System.out.println(savePath);
 
 		File file = new File(savePath);
 		if (file.exists()) {
@@ -110,8 +118,42 @@ public class RestaurantController {
 		} else {
 			System.out.println("파일이 존재하지 않습니다.");
 		}
-		//파일 삭제 끝 2
-		
+		// 파일 삭제 끝 2
+
 		return "ajax:{\"result\":" + result + "}";
 	}
+
+	public String ajaxDelMenu(HttpServletRequest request) {
+		int i_rest = CommonUtils.getIntParameter("i_rest", request);
+		int seq = CommonUtils.getIntParameter("seq", request);
+		// 파일 삭제 추가 1
+		String fileNm = request.getParameter("fileNm");
+		// 파일 삭제 끝 1
+		// System.out.println(fileNm);
+
+		RestaurantRecommendMenuDomain param = new RestaurantRecommendMenuDomain();
+		param.setI_user(SecurityUtils.getLoginUser(request).getI_user());
+		param.setI_rest(i_rest);
+		param.setSeq(seq);
+		int result = service.delMenu(param);
+		// 파일 삭제 추가 2
+		String savePath = request.getServletContext().getRealPath("/res/img/restaurant") + "/" + i_rest + "/" + fileNm;
+
+		// System.out.println(savePath);
+
+		File file = new File(savePath);
+		if (file.exists()) {
+			if (file.delete()) {
+				System.out.println("파일삭제 성공");
+			} else {
+				System.out.println("파일삭제 실패");
+			}
+		} else {
+			System.out.println("파일이 존재하지 않습니다.");
+		}
+		// 파일 삭제 끝 2
+
+		return "ajax:{\"result\":" + result + "}";
+	}
+
 }

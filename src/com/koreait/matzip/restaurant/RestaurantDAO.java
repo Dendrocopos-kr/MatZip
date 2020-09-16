@@ -10,6 +10,8 @@ import com.koreait.matzip.db.JdbcSelectInterface;
 import com.koreait.matzip.db.JdbcTemplate;
 import com.koreait.matzip.db.JdbcUpdateInterface;
 import com.koreait.matzip.vo.RestaurantDomain;
+import com.koreait.matzip.vo.RestaurantMenuVO;
+import com.koreait.matzip.vo.RestaurantRecommendMenuDomain;
 import com.koreait.matzip.vo.RestaurantRecommendMenuVO;
 import com.koreait.matzip.vo.RestaurantVO;
 
@@ -144,14 +146,75 @@ public class RestaurantDAO {
 		});
 	}
 
-	public int delRecMenu(RestaurantRecommendMenuVO param) {
-		String sql = " DELETE FROM t_restaurant_recommend_menu WHERE i_rest = ? AND seq = ? ";
+	public int delRecMenu(RestaurantRecommendMenuDomain param) {
+		String sql = " DELETE A FROM t_restaurant_recommend_menu A "
+				+ " INNER JOIN t_restaurant B ON A.i_rest = B.i_rest AND B.i_user = ? "
+				+ " WHERE A.i_rest = ? AND A.seq = ? ";
+		
+		
 		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
 			
 			@Override
 			public void update(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.getI_user());
+				ps.setInt(2, param.getI_rest());
+				ps.setInt(3, param.getSeq());
+			}
+		});
+	}
+
+	public void insMenu(RestaurantMenuVO vo) {
+		String sql = " insert into t_restaurant_menu "
+				+ " (seq,i_rest,menu_pic) "
+				+ " select ifnull(max(seq),0)+1,?,? "
+				+ " from t_restaurant_menu "
+				+ " where i_rest = ? ";
+		JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
+			
+			@Override
+			public void update(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, vo.getI_rest());
+				ps.setString(2, vo.getMenu_pic());
+				ps.setInt(3, vo.getI_rest());
+			}
+		});
+	}
+
+	public List<RestaurantMenuVO> selMenuList(RestaurantVO param) {
+		List<RestaurantMenuVO> list = new ArrayList();
+		String sql = " SELECT i_rest,seq,menu_pic FROM t_restaurant_menu where i_rest =? ";
+		JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
+			@Override
+			public void prepared(PreparedStatement ps) throws SQLException {
 				ps.setInt(1, param.getI_rest());
-				ps.setInt(2, param.getSeq());
+			}
+			@Override
+			public void executeQuery(ResultSet rs) throws SQLException {
+				while(rs.next()) {
+					RestaurantMenuVO vo = new RestaurantMenuVO();
+					vo.setI_rest(rs.getInt("i_rest"));
+					vo.setMenu_pic(rs.getNString("menu_pic"));
+					vo.setSeq(rs.getInt("seq"));
+					list.add(vo);
+				}
+			}
+		});
+		return list;
+	}
+
+	public int delMenu(RestaurantRecommendMenuDomain param) {
+		String sql = " DELETE A FROM t_restaurant_menu A "
+				+ " INNER JOIN t_restaurant B ON A.i_rest = B.i_rest AND B.i_user = ? "
+				+ " WHERE A.i_rest = ? AND A.seq = ? ";
+		
+		
+		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
+			
+			@Override
+			public void update(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, param.getI_user());
+				ps.setInt(2, param.getI_rest());
+				ps.setInt(3, param.getSeq());
 			}
 		});
 	}

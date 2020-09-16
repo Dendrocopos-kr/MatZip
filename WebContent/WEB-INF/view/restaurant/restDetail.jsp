@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <div class="recMenuContainer">
 	<c:if test="${ recommendMenuList != null }">
@@ -17,14 +18,14 @@
 					<div class="info">
 						<div class="nm">${item.menu_nm}</div>
 						<div class="price">
-							<fmt:formatNumber type="currency" value="${item.menu_price}"/>
+							<fmt:formatNumber type="currency" value="${item.menu_price}" />
 						</div>
 					</div>
 				</div>
 				<c:if test="${loginUser.i_user == data.i_user}">
-			    <%-- <c:if test="${loginUser.i_user == data.i_user && item.menu_pic != null}"> --%>
+					<%-- <c:if test="${loginUser.i_user == data.i_user && item.menu_pic != null}"> --%>
 					<div class="delIconContainer"
-						onclick="delRecMenu(${item.i_rest},${item.seq},'${item.menu_pic}')">
+						onclick="delRecMenu(${item.seq},'${item.menu_pic}')">
 						<span class="material-icons"> clear </span>
 					</div>
 				</c:if>
@@ -36,14 +37,12 @@
 <div id="sectionContainerCenter">
 	<div>
 		<c:if test="${loginUser.i_user == data.i_user}">
+			<button onclick="isDel()">가게 삭제</button>
+			<h2>- 추천 메뉴 -</h2>
 			<div>
-				<button onclick="isDel()">삭제</button>
-
+				<button onclick="addRecMenu()">추천 메뉴 추가</button>
 				<form id="recFrm" action="/restaurant/addRecMenusProc"
 					enctype="multipart/form-data" method="post">
-					<div>
-						<button type="button" onclick="addRecMenu()">메뉴 추가</button>
-					</div>
 					<input type="hidden" name="i_rest" value="${data.i_rest}">
 					<div id="recItem"></div>
 					<div>
@@ -51,7 +50,20 @@
 					</div>
 				</form>
 			</div>
+			<h2>- 메뉴 -</h2>
+			<div>
+				<form id="menuFrm" action="/restaurant/addMenusProc"
+					enctype="multipart/form-data" method="post">
+					<input type="file" name="menu_pic" multiple="multiple"> <input
+						type="hidden" name="i_rest" value="${data.i_rest}">
+					<div id="menuItem"></div>
+					<div>
+						<input type="submit" value="등록">
+					</div>
+				</form>
+			</div>
 		</c:if>
+
 		<div class="restaurant-detail">
 			<div id="detail-header">
 				<div class="restaurant_title_wrap">
@@ -76,6 +88,27 @@
 							<th>카테고리</th>
 							<td>${data.cd_category_nm}</td>
 						</tr>
+						<tr>
+							<th>메뉴</th>
+							<td>
+								<div class="menuList">
+									<c:if test="${fn:length(menuList) >0}">
+										<c:forEach var="i" begin="0"
+											end="${fn:length(menuList) > 3 ? 2 : fn:length(menuList) - 1}">
+											<div class="menuItem">
+												<img
+													src="/res/img/restaurant/${data.i_rest}/menu/${menuList[i].menu_pic}">
+											</div>
+										</c:forEach>
+									</c:if>
+									<c:if test="${fn:length(menuList) > 3}">
+										<div class="menuItem bg_black">
+											<div class="moreCnt">+${fn:length(menuList) - 3}</div>
+										</div>
+									</c:if>
+								</div>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -83,7 +116,8 @@
 	</div>
 
 	<script>
-		var idx = 0;
+	var idx = 0;
+	var idx2 = 0;
 		function addRecMenu() {
 			var div = document.createElement('div')
 
@@ -106,18 +140,18 @@
 
 			recItem.append(div)
 		}
-		addRecMenu()
-
+		
 		function isDel() {
 			if (confirm('삭제 하시겠습니까?')) {
 				location.href = '/restaurant/restDel?i_rest=${data.i_rest}'
 			}
 		}
 		
-		function delRecMenu(i_rest,seq,fileNm){
+		function delRecMenu(seq,fileNm) {
 			axios.get('/restaurant/ajaxDelRecMenu',{
 				params:{
-					i_rest,seq,
+					i_rest : ${data.i_rest},
+					seq,
 					fileNm
 				}
 			}).then(function(res){

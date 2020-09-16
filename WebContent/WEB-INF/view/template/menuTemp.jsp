@@ -6,11 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>${title}</title>
-<link rel="stylesheet" type="text/css" href="/res/css/common.css">
+<link rel="stylesheet" type="text/css" href="/res/css/common.css?ver=3">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 <c:forEach items="${css}" var="item">
-	<link rel="stylesheet" type="text/css" href="/res/css/${item}.css">
+	<link rel="stylesheet" type="text/css" href="/res/css/${item}.css?ver=17">
 </c:forEach>
 </head>
 <body>

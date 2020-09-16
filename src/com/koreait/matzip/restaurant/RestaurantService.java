@@ -8,11 +8,14 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 import com.koreait.matzip.CommonUtils;
 import com.koreait.matzip.FileUtils;
 import com.koreait.matzip.vo.RestaurantDomain;
+import com.koreait.matzip.vo.RestaurantMenuVO;
+import com.koreait.matzip.vo.RestaurantRecommendMenuDomain;
 import com.koreait.matzip.vo.RestaurantRecommendMenuVO;
 import com.koreait.matzip.vo.RestaurantVO;
 import com.oreilly.servlet.MultipartRequest;
@@ -40,31 +43,55 @@ public class RestaurantService {
 		return dao.selRest(param);
 	}
 
+	public int addMenus(HttpServletRequest request) {
+		int i_rest = CommonUtils.getIntParameter("i_rest", request);
+		String targetPath = request.getServletContext().getRealPath("/res/img/restaurant") + "/" +i_rest+ "/menu";
+		FileUtils.makeFolder(targetPath);
+		
+		try {
+			RestaurantMenuVO param = new RestaurantMenuVO();
+			param.setI_rest(i_rest);
+			for(Part part : request.getParts()) {
+				String fileName = part.getSubmittedFileName();
+				if(fileName != null ) {
+					String ext = FileUtils.getExt(fileName);
+					String saveFileNm = UUID.randomUUID() + ext;
+					part.write(targetPath + File.separator + saveFileNm);
+					param.setMenu_pic(saveFileNm);
+					dao.insMenu(param);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return i_rest;
+	}
+
 	public int addRecMenus(HttpServletRequest request) {
 
+		int i_rest = 0;
 		String savePath = request.getServletContext().getRealPath("/res/img/restaurant");
 		String tempPath = savePath + "/temp";
 		FileUtils.makeFolder(tempPath);
 
 		int maxFileSize = 10_485_760; // 1024 * 1024 * 10 (10mb) //최대 파일 사이즈 크기
 		MultipartRequest multi = null;
-		int i_rest = 0;
 		String[] menu_nmArr = null;
 		String[] menu_priceArr = null;
 		List<RestaurantRecommendMenuVO> list = null;
 		try {
 			multi = new MultipartRequest(request, tempPath, maxFileSize, "UTF-8", new DefaultFileRenamePolicy());
-
 			i_rest = CommonUtils.getIntParameter("i_rest", multi);
 
 			System.out.println("i_rest : " + i_rest);
 			menu_nmArr = multi.getParameterValues("menu_nm");
 			menu_priceArr = multi.getParameterValues("menu_price");
-			
-			if(menu_nmArr == null || menu_priceArr == null ) {
+
+			if (menu_nmArr == null || menu_priceArr == null) {
 				return i_rest;
 			}
-			
+
 			list = new ArrayList<RestaurantRecommendMenuVO>();
 			for (int i = 0; i < menu_nmArr.length; i++) {
 				RestaurantRecommendMenuVO vo = new RestaurantRecommendMenuVO();
@@ -103,7 +130,7 @@ public class RestaurantService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		if (list != null) {
 			for (RestaurantRecommendMenuVO vo : list) {
 				dao.insRecommendMenu(vo);
@@ -117,8 +144,17 @@ public class RestaurantService {
 		return dao.selRestRecMenuList(param);
 	}
 
-	public int delRecMenu(RestaurantRecommendMenuVO param) {
+	public int delRecMenu(RestaurantRecommendMenuDomain param) {
 		int result = dao.delRecMenu(param);
+		return result;
+	}
+
+	public List<RestaurantMenuVO> getMenuList(RestaurantVO param) {
+		return dao.selMenuList(param);
+	}
+
+	public int delMenu(RestaurantRecommendMenuDomain param) {
+		int result = dao.delMenu(param);
 		return result;
 	}
 }

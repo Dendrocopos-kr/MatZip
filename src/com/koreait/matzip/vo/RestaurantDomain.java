@@ -6,6 +6,7 @@ public class RestaurantDomain extends RestaurantVO {
 	private int cntFavorite;
 	private String cd_category_nm;
 	
+	
 	public String getUserNm() {
 		return userNm;
 	}
